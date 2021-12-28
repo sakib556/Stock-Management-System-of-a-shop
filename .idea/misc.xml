@@ -8,9 +8,13 @@
         <entry key="..\:/Users/sakib/AndroidStudioProjects/StockManaging/app/src/main/res/drawable-v24/ic_baseline_add_shopping_cart_24.xml" value="0.18425925925925926" />
         <entry key="..\:/Users/sakib/AndroidStudioProjects/StockManaging/app/src/main/res/drawable-v24/ic_baseline_local_grocery_store_24.xml" value="0.18425925925925926" />
         <entry key="..\:/Users/sakib/AndroidStudioProjects/StockManaging/app/src/main/res/drawable-v24/ic_baseline_people_outline_24.xml" value="0.18425925925925926" />
+        <entry key="..\:/Users/sakib/AndroidStudioProjects/StockManaging/app/src/main/res/drawable/circle.xml" value="0.1953125" />
         <entry key="..\:/Users/sakib/AndroidStudioProjects/StockManaging/app/src/main/res/layout/activity_add_products.xml" value="0.33" />
+        <entry key="..\:/Users/sakib/AndroidStudioProjects/StockManaging/app/src/main/res/layout/activity_details.xml" value="0.20416666666666666" />
+        <entry key="..\:/Users/sakib/AndroidStudioProjects/StockManaging/app/src/main/res/layout/activity_edit_product.xml" value="0.33" />
         <entry key="..\:/Users/sakib/AndroidStudioProjects/StockManaging/app/src/main/res/layout/activity_main.xml" value="0.25" />
-        <entry key="..\:/Users/sakib/AndroidStudioProjects/StockManaging/app/src/main/res/layout/activity_product_list.xml" value="0.25" />
+        <entry key="..\:/Users/sakib/AndroidStudioProjects/StockManaging/app/src/main/res/layout/activity_product_list.xml" value="0.2" />
+        <entry key="..\:/Users/sakib/AndroidStudioProjects/StockManaging/app/src/main/res/layout/custom_list_item.xml" value="0.33" />
         <entry key="..\:/Users/sakib/AndroidStudioProjects/StockManaging/app/src/main/res/layout/layout_dialogue.xml" value="0.33" />
       </map>
     </option>

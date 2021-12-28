@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".EditProduct"
+    android:orientation="vertical"
+    android:padding="20dp">
+    <EditText
+        android:id="@+id/editproids"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="ID : "
+        android:textSize="20sp"
+        android:enabled="false"
+        />
+    <EditText
+        android:id="@+id/editpronameids"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Product Name : "
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        />
+    <EditText
+        android:id="@+id/editprocodeids"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Product Code : "
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        />
+    <EditText
+        android:id="@+id/editpropriceids"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Product Price : "
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        />
+    <EditText
+        android:id="@+id/editprodetailsids"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="Product Details : "
+        android:textSize="20sp"
+        android:layout_marginTop="10dp"
+        />
+        <Button
+            android:onClick="updatebtn"
+            android:layout_width="wrap_content"
+            android:layout_height="27dp"
+            android:text="Update"
+            android:textSize="16sp"
+            android:layout_gravity="center"
+            android:textAlignment="center"
+            android:textColor="@color/white"
+            android:background="@drawable/gradient2"
+            android:layout_marginTop="10dp"
+            />
+</LinearLayout>

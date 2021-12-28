@@ -1,15 +1,23 @@
 package com.example.stockmanaging;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.View;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ListView;
+import android.widget.ProgressBar;
+import android.widget.Switch;
 import android.widget.Toast;
 
 import com.android.volley.*;
@@ -32,19 +40,49 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class ProductList extends AppCompatActivity {
-
     ListView listView;
-    ArrayList<String> arrayList;
+    MyAdapter adapter;
+    Products products;
+    public static ArrayList<Products> productsArrayList=new ArrayList<>();
     String showLink = "https://stockmanaging56.000webhostapp.com/phpApi/show.php";
-    String addLink = "https://stockmanaging56.000webhostapp.com/addApi.php";
-//    String url="https://stockmanaging56.000webhostapp.com/addApi.php";
+    String addLink = "https://stockmanaging56.000webhostapp.com/phpApi/add.php";
+    String deleteLink = "https://stockmanaging56.000webhostapp.com/phpApi/delete.php";
     // String link="https://zara-business.herokuapp.com/flexi-load/read";
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_product_list);
         listView=findViewById(R.id.listId);
+        adapter=new MyAdapter(this,productsArrayList);
         showData();
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                AlertDialog.Builder builder=new  AlertDialog.Builder(view.getContext());
+                ProgressDialog progressDialog=new ProgressDialog(view.getContext());
+                CharSequence[] dialogItem={"View Data","Edit Data","Delete Data"};
+                builder.setTitle(productsArrayList.get(position).getPname());
+                builder.setItems(dialogItem, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        switch (i){
+                            case 0:
+                                startActivity(new Intent(getApplicationContext(),Details.class)
+                                        .putExtra("position",position));
+                                break;
+                            case 1:
+                                startActivity(new Intent(getApplicationContext(),EditProduct.class)
+                                        .putExtra("position",position));
+                                break;
+                            case 2:
+                                deleteData(productsArrayList.get(position).getId());
+                                break;
+                        }
+                    }
+                });
+                builder.create().show();
+            }
+        });
     }
     public void showData(){
         RequestQueue requestQueue=Volley.newRequestQueue(this);
@@ -52,20 +90,21 @@ public class ProductList extends AppCompatActivity {
             @Override
             public void onResponse(String response) {
                 try {
-                    arrayList=new ArrayList<>();
-                    ArrayAdapter adapter = new ArrayAdapter(ProductList.this,android.R.layout.simple_list_item_1,arrayList);
-                    arrayList.clear();
-                    JSONObject jsonObject=new JSONObject(response);
-                    if(jsonObject.getString("response").equals("success")){
-                        JSONArray jsonArray=jsonObject.getJSONArray("data");
+                    productsArrayList.clear();
+                    JSONObject jo=new JSONObject(response);
+                    String success=jo.getString("Success");
+                    JSONArray jsonArray=jo.getJSONArray("data");
+                    if(success.equals("1")) {
                         for (int i = 0; i < jsonArray.length(); i++) {
-                            JSONObject jo=jsonArray.getJSONObject(i);
+                            JSONObject jsonObject=jsonArray.getJSONObject(i);
                             String id = jsonObject.getString("id");
                             String name = jsonObject.getString("productName");
                             String code = jsonObject.getString("productCode");
                             String price = jsonObject.getString("sellPrice");
                             String details = jsonObject.getString("productDetails");
-                            arrayList.add(id+"\n"+name+"\n"+code+"\n"+price+"\n"+details);
+                            products= new Products(id,name,code,price,details);
+                            productsArrayList.add(products);
+                            adapter.notifyDataSetChanged();
                         }
                         listView.setAdapter(adapter);
                     }
@@ -75,24 +114,25 @@ public class ProductList extends AppCompatActivity {
                 } catch (JSONException e) {
                     e.printStackTrace();
                 }
-              //  Toast.makeText(getApplicationContext(),response,Toast.LENGTH_SHORT).show();
             }
         }, new Response.ErrorListener() {
             @Override
             public void onErrorResponse(VolleyError error) {
-                Toast.makeText(getApplicationContext(),"Data add failed",Toast.LENGTH_SHORT).show();
+                Toast.makeText(getApplicationContext(),error.getMessage(),Toast.LENGTH_SHORT).show();
                 requestQueue.stop();
             }
         }
         );
         requestQueue.add(stringRequest);
     }
+
     public void addData(String name,String code,String price,String details){
         RequestQueue requestQueue=Volley.newRequestQueue(this);
         StringRequest stringRequest=new StringRequest(Request.Method.POST,addLink, new Response.Listener<String>() {
             @Override
             public void onResponse(String response) {
                 Toast.makeText(getApplicationContext(),response,Toast.LENGTH_SHORT).show();
+                showData();
             }
         }, new Response.ErrorListener() {
             @Override
@@ -110,10 +150,33 @@ public class ProductList extends AppCompatActivity {
                 par.put("pdetails",details);
                 return par;
             }
-        } ;
+        };
         requestQueue.add(stringRequest);
     }
-
+    public void deleteData(String id){
+        RequestQueue requestQueue=Volley.newRequestQueue(this);
+        StringRequest stringRequest=new StringRequest(Request.Method.POST,deleteLink, new Response.Listener<String>() {
+            @Override
+            public void onResponse(String response) {
+                Toast.makeText(getApplicationContext(),"Data deleted successfully.",Toast.LENGTH_SHORT).show();
+                showData();
+            }
+        }, new Response.ErrorListener() {
+            @Override
+            public void onErrorResponse(VolleyError error) {
+                Toast.makeText(getApplicationContext(),"Data delete failed",Toast.LENGTH_SHORT).show();
+                requestQueue.stop();
+            }
+        }
+        ){
+            protected Map<String,String> getParams(){
+                Map<String,String> par=new HashMap<String,String>();
+                par.put("id",id);
+                return par;
+            }
+        };
+        requestQueue.add(stringRequest);
+    }
     public void productbtn1(View view) {
         ExampleDialogue exampleDialogue=new ExampleDialogue();
         exampleDialogue.show(getSupportFragmentManager(),"example dialog");

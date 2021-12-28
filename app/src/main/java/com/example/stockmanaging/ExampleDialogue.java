@@ -38,9 +38,6 @@ import java.util.ArrayList;
 
 public class ExampleDialogue extends AppCompatDialogFragment {
      EditText pName,pCode,pPrice,pDetails;
-    ListView listView;
-    ArrayList<String> arrayList;
-    String mylink="https://stockmanaging56.000webhostapp.com/addApi.php";
     @NonNull
     @Override
     public Dialog onCreateDialog(@Nullable Bundle savedInstanceState) {
@@ -65,7 +62,8 @@ public class ExampleDialogue extends AppCompatDialogFragment {
                         String pdetails=pDetails.getText().toString();
 //                        ProductList productList=new ProductList();
 //                        productList.addData(name,pcode,pprice,pdetails);
-//                        ((ProductList)getActivity()).addData(name,pcode,pprice,pdetails);
+                    ((ProductList)getActivity()).addData(name,pcode,pprice,pdetails);
+                    //   ((ProductList)getActivity()).showData();
               //calling subclass
 //                        ProductList productList=new ProductList();
 //                        ProductList.myData productListdata=productList.new myData();
